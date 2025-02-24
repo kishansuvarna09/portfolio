@@ -18,14 +18,10 @@ jobs:
             - name: Get SSH key and set permissions
               run: |
                   mkdir -p ~/.ssh
-                  echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
-                  chmod 600 ~/.ssh/id_rsa
-
-            - name: Display SSH info
-              run: echo ${{secrets.SSH_USER}} ${{secrets.SSH_HOST}} ${{secrets.SSH_PATH}}
+                  echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
 
             - name: Deploy using SCP
-              run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/* ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.SSH_PATH}}
+              run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r . ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.SSH_PATH}}
 
             - name: Remove old certificates and copy new ones
               run: |
