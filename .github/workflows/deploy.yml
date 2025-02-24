@@ -16,14 +16,25 @@ jobs:
                   node-version: 22
             - name: Install dependencies
               run: yarn
+
             - name: Build project
               run: yarn build
+
             - name: Get SSH key and set permissions
               run: |
                   mkdir -p ~/.ssh
                   echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
                   chmod 600 ~/.ssh/id_rsa
+
             - name: Deploy using SCP
               run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./dist/* ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.SSH_PATH}}
+
+            - name: Remove old certificates and copy new ones
+              run: |
+                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} << 'EOF'
+                  rm -rf ${{secrets.SSH_PATH}}/nginx/certs/*
+                  cp -r ${{secrets.SSH_PATH}}/helloworld/certbot/conf/live/itchygeek.com/* /opt/itchygeek/nginx/certs/
+                  EOF
+
             - name: Restart server
               run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "cd ${{secrets.SSH_PATH}} && docker-compose down && docker-compose up -d"

@@ -28,7 +28,7 @@ COPY ./nginx/conf.d /etc/nginx/conf.d
 # Copy SSL certificates
 COPY ./nginx/certs/fullchain.pem /etc/ssl/certs/
 COPY ./nginx/certs/privkey.pem /etc/ssl/certs/
-COPY ./nginx/certs/server.pem /etc/ssl/certs/
+COPY ./nginx/certs/cert.pem /etc/ssl/certs/
 
 # Expose port 80 443
 EXPOSE 80 443
