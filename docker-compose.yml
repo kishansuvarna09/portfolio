@@ -1,0 +1,9 @@
+services:
+    itchygeek:
+        container_name: itchygeek
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '3000:80'
+            - '3001:443'
