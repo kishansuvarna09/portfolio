@@ -1,5 +1,5 @@
 function App() {
-    return <h1>Kishan Suvarna</h1>
+    return <h1>Itchy Geek</h1>
 }
 
 export default App
