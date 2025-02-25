@@ -29,9 +29,8 @@ jobs:
               run: |
                   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} << 'EOF'
                   cd ${{secrets.SSH_PATH}} && \
-                  rm -rf nginx/certs/* && \
-                  chmod -R 777 nginx/certs && \
-                  cp -r /opt/helloworld/certbot/conf/live/itchygeek.com/* nginx/certs/
+                  chmod -R 777 ./* && \
+                  cp -r /opt/helloworld/certbot/conf/live/itchygeek.com/* ${{secrets.SSH_PATH}}/nginx/certs/
                   EOF
 
             - name: Restart server
@@ -40,6 +39,7 @@ jobs:
                   cd ${{secrets.SSH_PATH}} && \
                   docker-compose down && docker-compose up -d"
 
+        post:
             - name: Cleanup
               run: |
                   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
