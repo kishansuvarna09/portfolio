@@ -40,4 +40,4 @@ jobs:
             - name: Cleanup
               run: |
                   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
-                  rm -rf ${{secrets.SSH_PATH}}/*"
+                  rm -rf ${{secrets.SSH_PATH}}/{*,.*} 2>/dev/null || true"
