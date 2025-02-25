@@ -39,8 +39,8 @@ jobs:
                   cd ${{secrets.SSH_PATH}} && \
                   docker-compose down && docker-compose up -d"
 
-        post:
-            - name: Cleanup
-              run: |
-                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
-                  rm -rf ${{secrets.SSH_PATH}}/{*,.*} 2>/dev/null || true"
+    post:
+        - name: Cleanup
+          run: |
+              ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
+              rm -rf ${{secrets.SSH_PATH}}/{*,.*} 2>/dev/null || true"
