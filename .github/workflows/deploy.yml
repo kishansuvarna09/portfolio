@@ -22,25 +22,26 @@ jobs:
                   chmod 600 ~/.ssh/id_ed25519
                   ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-            - name: Deploy using SCP
-              run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -r . ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.SSH_PATH}}
-
-            - name: Remove old certificates and copy new ones
+            - name: Create .env file
               run: |
-                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} << 'EOF'
-                  cd ${{secrets.SSH_PATH}} && \
-                  chmod -R 777 ./* && \
-                  cp -r /opt/helloworld/certbot/conf/live/itchygeek.com/* ${{secrets.SSH_PATH}}/nginx/certs/
-                  EOF
+                  echo "SSL_PATH=${{ secrets.SSL_CERT_PATH }}" > .env
+                  cat .env
+
+            - name: Cleanup existing files
+              run: |
+                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
+                  rm -rf ${{vars.SSH_PATH}}/{*,.*} 2>/dev/null || true"
+
+            - name: Deploy using SCP
+              run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -r . ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{vars.SSH_PATH}}
 
             - name: Restart server
               run: |
                   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
-                  cd ${{secrets.SSH_PATH}} && \
+                  cd ${{vars.SSH_PATH}} && \
                   docker-compose down && docker-compose up -d"
 
-    post:
-        - name: Cleanup
-          run: |
-              ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
-              rm -rf ${{secrets.SSH_PATH}}/{*,.*} 2>/dev/null || true"
+            - name: Cleanup after deployment
+              run: |
+                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
+                  rm -rf ${{vars.SSH_PATH}}/{*,.*} 2>/dev/null || true"

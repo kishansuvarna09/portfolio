@@ -4,6 +4,8 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                - SSL_PATH=${SSL_PATH:-./nginx/certs}
         ports:
             - '80:80'
             - '443:443'
