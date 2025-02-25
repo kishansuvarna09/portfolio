@@ -31,7 +31,7 @@ jobs:
                   cd ${{secrets.SSH_PATH}} && \
                   rm -rf nginx/certs/* && \
                   cp -r /opt/helloworld/certbot/conf/live/itchygeek.com/* nginx/certs/
-                  EOF"
+                  EOF
 
             - name: Restart server
               run: |
