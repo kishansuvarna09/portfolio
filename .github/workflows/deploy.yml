@@ -39,7 +39,7 @@ jobs:
               run: |
                   ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "
                   cd ${{vars.SSH_PATH}} && \
-                  docker-compose down && docker-compose up -d"
+                  docker-compose down && docker-compose up --force-recreate --build -d"
 
             - name: Cleanup after deployment
               run: |
