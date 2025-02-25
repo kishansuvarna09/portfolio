@@ -27,9 +27,9 @@ jobs:
 
             - name: Remove old certificates and copy new ones
               run: |
-                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} ""
-                  rm -rf ${{secrets.SSH_PATH}}/nginx/certs/* && \
-                  cp -r /opt/helloworld/certbot/conf/live/itchygeek.com/* ${{secrets.SSH_PATH}}/nginx/certs/""
+                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.SSH_PATH}} "
+                  rm -rf nginx/certs/* && \
+                  cp -r /opt/helloworld/certbot/conf/live/itchygeek.com/* nginx/certs/"
 
             - name: Restart server
               run: |
