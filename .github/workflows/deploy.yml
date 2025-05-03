@@ -9,8 +9,9 @@ jobs:
     sonar:
         name: SonarQube Scan
         runs-on: ubuntu-latest
+
         steps:
-            - name: Checkout code
+            - name: Check out code
               uses: actions/checkout@v3
 
             - name: Set up Java 11
@@ -19,18 +20,18 @@ jobs:
                   distribution: temurin
                   java-version: '11'
 
-            - name: Run SonarQube scanner
+            - name: Install Sonar Scanner
+              run: |
+                  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
+                  unzip sonar-scanner-cli-4.8.0.2856-linux.zip
+                  echo "$PWD/sonar-scanner-4.8.0.2856-linux/bin" >> $GITHUB_PATH
+
+            - name: Run SonarQube analysis
               env:
                   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
                   SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
-                  SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }
+                  SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
               run: |
-                  # install the CLI  
-                  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
-                  unzip sonar-scanner-cli-4.8.0.2856-linux.zip
-                  export PATH="$PWD/sonar-scanner-4.8.0.2856-linux/bin:$PATH"
-
-                  # run the analysis
                   sonar-scanner \
                     -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
                     -Dsonar.sources=src \
