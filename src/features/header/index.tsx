@@ -10,7 +10,7 @@ const Header = () => {
                             <img
                                 className="aspect-square h-full w-full"
                                 alt="profile picture"
-                                src="https://media.licdn.com/dms/image/v2/D5603AQHq-W8nde6_QA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682706030196?e=1746057600&v=beta&t=DmHoA80PxPgEgw5dHEe2u9mzjagOzzCs6RyxhaGR-7A"
+                                src="https://res.cloudinary.com/jasmine-tailors/image/upload/v1746267277/13454759_grfbjz.jpg"
                             />
                         </span>
                     </div>
