@@ -17,9 +17,9 @@ jobs:
             - name: SonarQube Scan
               uses: SonarSource/sonarqube-scan-action@v5.1.0
               env:
-                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-                  SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
-                  SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+                  SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
 
     deploy:
         name: Deploy to Production
