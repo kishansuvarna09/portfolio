@@ -9,7 +9,7 @@ const Header = () => {
                         <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-full">
                             <img
                                 className="aspect-square h-full w-full"
-                                alt="profile picture"
+                                alt="itchygeek"
                                 src="https://res.cloudinary.com/kuntu/image/upload/v1746267277/13454759_grfbjz.jpg"
                             />
                         </span>
