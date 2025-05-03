@@ -10,7 +10,7 @@ const Header = () => {
                             <img
                                 className="aspect-square h-full w-full"
                                 alt="profile picture"
-                                src="https://res.cloudinary.com/jasmine-tailors/image/upload/v1746267277/13454759_grfbjz.jpg"
+                                src="https://res.cloudinary.com/kuntu/image/upload/v1746267277/13454759_grfbjz.jpg"
                             />
                         </span>
                     </div>
